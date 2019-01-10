@@ -6,6 +6,7 @@ from backend.app import create_app, which_config
 
 CONFIG = which_config()
 
+coloredlogs.DEFAULT_LOG_FORMAT = '%(asctime)s %(name)s[%(funcName)s]-%(levelname)s Line:%(lineno)s  %(message)s'
 coloredlogs.install(level=logging.DEBUG if CONFIG.DEBUG else logging.WARNING)
 
 app = create_app(CONFIG)
