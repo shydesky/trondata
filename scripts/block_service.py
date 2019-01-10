@@ -1,9 +1,25 @@
+import sys
 import requests
 import logging
 import concurrent.futures
 from functools import cmp_to_key
-
 from backend.block import operations
+
+def parse_args():
+    try:
+        func = sys.argv[1]
+        params = sys.argv[2:]
+    except Exception as e:
+        logging.error('unexcepted error: %s', e)
+        return
+    if not func in const_func_available:
+        logging.error('unsupported command: %s', func)
+        return
+    logging.info("func: %s\nparmas: %s", func, list(map(lambda x: str(x), params)))
+    return func, params
+
+# define the supported command
+const_func_available = {'fetch_block'}
 
 block_header_start_end = "/wallet/getblockheaderbylimitnext?startNum=%s&endNum=%s"
 host_pool = [
@@ -28,16 +44,16 @@ def fetch_block_for_trx(beginNumber, endNumber):
     return results
 
 def fetch_block(beginNumber, endNumber):
-    to_do = []
-    results = []
-    step = 100
     with concurrent.futures.ThreadPoolExecutor(max_workers=50) as executor:
+        step = 100
+        to_do = []
         i = 0
         for item in range(beginNumber, endNumber, step):
             i = i % len(host_pool)
             to_do.append(executor.submit(getBlockLimitNext, (item, min(endNumber, item + step), i)))
             i = i + 1
 
+    results = []
     for future in concurrent.futures.as_completed(to_do):
         res = future.result()
         results.extend(res)
@@ -67,15 +83,24 @@ def getBlockLimitNext(args):
     
     return block_list
 
-# python -m scripts.fetch_block
+
 if __name__ == "__main__":
     from autoapp import app
-    import time
-    with app.app_context():
-        step = 3000
-        for i in range(5650230,5678000, step):
-            logging.info("fetch blocks: %d ~ %d", i, i + step)
-            time.sleep(2)
-            fetch_block(i, i + step)
+    try:
+        func, params = parse_args()
+        beginNumber = int(params[0])
+        endNumber = int(params[1])
+    except Exception as e:
+        logging.error('parse_args error: %s', e)
+
+    try:
+        with app.app_context():
+            if func == 'fetch_block':
+                fetch_block(beginNumber, endNumber)
+    except Exception as e:
+        logging.error('execute script error: %s', e)
 
 
+
+
+        
