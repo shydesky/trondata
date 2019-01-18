@@ -48,26 +48,32 @@ make_witness_schedule4 = functools.partial(_make_witness_schedule, index=4)
 
 
 # 按天根据每个维护期的产块情况计算witness的出块顺序，写入WitnessSchedule，每天4条数据
-def make_witness_schedule(utc_date_time):
+def make_witness_schedule(utc_date_time, index=None):
     if not isinstance (utc_date_time, datetime):
         utc_date_time = datetime.utcnow()
+    index = "1234" if not index else index
 
     logging.info('make witness schedule(%s) start.', utc_date_time.date())
 
-    wit_dict = make_witness_schedule1(utc_date_time)
-    WitnessSchedule.create_from_dict(wit_dict, need_to_commit=False)
-    logging.info(wit_dict)
-    wit_dict = make_witness_schedule2(utc_date_time)
-    WitnessSchedule.create_from_dict(wit_dict, need_to_commit=False)
-    logging.info(wit_dict)
+    if "1" in index:
+        wit_dict = make_witness_schedule1(utc_date_time)
+        WitnessSchedule.create_from_dict(wit_dict, need_to_commit=False)
+        logging.info(wit_dict)
 
-    wit_dict = make_witness_schedule3(utc_date_time)
-    WitnessSchedule.create_from_dict(wit_dict, need_to_commit=False)
-    logging.info(wit_dict)
+    if "2" in index:
+        wit_dict = make_witness_schedule2(utc_date_time)
+        WitnessSchedule.create_from_dict(wit_dict, need_to_commit=False)
+        logging.info(wit_dict)
 
-    wit_dict = make_witness_schedule4(utc_date_time)
-    WitnessSchedule.create_from_dict(wit_dict, need_to_commit=False)
-    logging.info(wit_dict)
+    if "3" in index:
+        wit_dict = make_witness_schedule3(utc_date_time)
+        WitnessSchedule.create_from_dict(wit_dict, need_to_commit=False)
+        logging.info(wit_dict)
+
+    if "4" in index:
+        wit_dict = make_witness_schedule4(utc_date_time)
+        WitnessSchedule.create_from_dict(wit_dict, need_to_commit=False)
+        logging.info(wit_dict)
 
     db.session.commit()
     logging.info('make witness schedule(%s) success.', utc_date_time.date())
@@ -76,7 +82,7 @@ def make_witness_schedule(utc_date_time):
 def calc_witness_list(t_start, number):
     witness_list = [None] * 27
     base_timestamp = t_start 
-    blocks = query_block_by_number(number, number+81)
+    blocks = query_block_by_number(number, number + 81)
     if not blocks:
         logging.error('no blocks fetched after time %d, please fetch block at first.', base_timestamp)
         raise LogicError(base_timestamp, 'blocks size:{}'.format(len(blocks)))# to do
@@ -91,29 +97,35 @@ def calc_witness_list(t_start, number):
 
 
 #按天统计witness丢块情况
-def witness_miss_block_by_day(utc_date_time):
+def witness_miss_block_by_day(utc_date_time, index=None):
+    index = "1234" if not index else index
     witness_miss_block_by_day = dict()
     year, month, day = utc_date_time.timetuple()[:3]
-    t_start = int(datetime(year, month, day, 0, 0, 12, tzinfo=timezone.utc).timestamp())
-    t_end = int(datetime(year, month, day, 6, 0, 9, tzinfo=timezone.utc).timestamp())
-    witness_miss_dict = witness_miss_block_by_period(t_start, t_end)
-    witness_miss_block_by_day[(t_start, t_end)] = witness_miss_dict
 
-    t_start = int(datetime(year, month, day, 6, 0, 12, tzinfo=timezone.utc).timestamp())
-    t_end = int(datetime(year, month, day, 12, 0, 9, tzinfo=timezone.utc).timestamp())
-    witness_miss_dict = witness_miss_block_by_period(t_start, t_end)
-    witness_miss_block_by_day[(t_start, t_end)] = witness_miss_dict
+    if "1" in index:
+        t_start = int(datetime(year, month, day, 0, 0, 12, tzinfo=timezone.utc).timestamp())
+        t_end = int(datetime(year, month, day, 6, 0, 9, tzinfo=timezone.utc).timestamp())
+        witness_miss_dict = witness_miss_block_by_period(t_start, t_end)
+        witness_miss_block_by_day[(t_start, t_end)] = witness_miss_dict
 
-    t_start = int(datetime(year, month, day, 12, 0, 12, tzinfo=timezone.utc).timestamp())
-    t_end = int(datetime(year, month, day, 18, 0, 9, tzinfo=timezone.utc).timestamp())
-    witness_miss_dict = witness_miss_block_by_period(t_start, t_end)
-    witness_miss_block_by_day[(t_start, t_end)] = witness_miss_dict
+    if "2" in index:
+        t_start = int(datetime(year, month, day, 6, 0, 12, tzinfo=timezone.utc).timestamp())
+        t_end = int(datetime(year, month, day, 12, 0, 9, tzinfo=timezone.utc).timestamp())
+        witness_miss_dict = witness_miss_block_by_period(t_start, t_end)
+        witness_miss_block_by_day[(t_start, t_end)] = witness_miss_dict
 
-    t_start = int(datetime(year, month, day, 18, 0, 12, tzinfo=timezone.utc).timestamp())
-    year, month, day = (utc_date_time + timedelta(days=1)).timetuple()[:3]
-    t_end = int(datetime(year, month, day, 0, 0, 9, tzinfo=timezone.utc).timestamp())
-    witness_miss_dict = witness_miss_block_by_period(t_start, t_end)
-    witness_miss_block_by_day[(t_start, t_end)] = witness_miss_dict
+    if "3" in index:
+        t_start = int(datetime(year, month, day, 12, 0, 12, tzinfo=timezone.utc).timestamp())
+        t_end = int(datetime(year, month, day, 18, 0, 9, tzinfo=timezone.utc).timestamp())
+        witness_miss_dict = witness_miss_block_by_period(t_start, t_end)
+        witness_miss_block_by_day[(t_start, t_end)] = witness_miss_dict
+
+    if "4" in index:
+        t_start = int(datetime(year, month, day, 18, 0, 12, tzinfo=timezone.utc).timestamp())
+        year, month, day = (utc_date_time + timedelta(days=1)).timetuple()[:3]
+        t_end = int(datetime(year, month, day, 0, 0, 9, tzinfo=timezone.utc).timestamp())
+        witness_miss_dict = witness_miss_block_by_period(t_start, t_end)
+        witness_miss_block_by_day[(t_start, t_end)] = witness_miss_dict
 
     return witness_miss_block_by_day
 

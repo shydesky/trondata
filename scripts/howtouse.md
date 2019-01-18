@@ -1,8 +1,10 @@
 ```shell
 cd path/to/root
 
-# fetch blocks
-python -m scripts.fetch_block fetch_block beginNumber endNumber
+# block service
+python -m scripts.block_service fetch_block beginNumber endNumber
+
+# witness service
 # make_witness_schedule
 # utc_date_time is the time from 1970-1-1 00:00:00 UTC+0 seconds
 python -m scripts.witness_service make_witness_schedule utc_date_time

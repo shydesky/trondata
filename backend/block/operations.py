@@ -41,7 +41,7 @@ def query_block_near_timestamp(timestamp, near_type=None):
 
 def query_block_by_number(number_start, number_end):
     query = db.session.query(Block).filter(Block.number.in_(range(number_start, number_end)))
-    blocks = query.all()
+    blocks = query.order_by(Block.number).all()
     logging.debug(query.statement)
     return blocks
 

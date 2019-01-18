@@ -10,10 +10,10 @@ import sys
 import logging
 from datetime import datetime
 from autoapp import app
-from backend.witness.operations import make_witness_schedule, witness_miss_block_by_day
+from backend.witness.operations import make_witness_schedule, witness_miss_block_by_day, witness_miss_block_by_period, make_witness_schedule_period
 
 # define the supported command
-const_func_available = {'make_witness_schedule', 'witness_miss_block_by_day'}
+const_func_available = {'make_witness_schedule', 'witness_miss_block_by_day', 'witness_miss_block_by_period', 'make_witness_schedule_period'}
 
 def parse_args():
     try:
@@ -37,9 +37,13 @@ if __name__ == '__main__':
     try:
         with app.app_context():
             if func == 'make_witness_schedule':
-                make_witness_schedule(utc_date_time)
+                make_witness_schedule(utc_date_time, index=None)
+            elif func == 'make_witness_schedule_period':
+                make_witness_schedule_period(utc_date_time, index="1")
             elif func == 'witness_miss_block_by_day':
-                logging.info(witness_miss_block_by_day(utc_date_time))
+                logging.info(witness_miss_block_by_day(utc_date_time, index=None))
+            elif func == 'witness_miss_block_by_period':
+                logging.info(witness_miss_block_by_day(utc_date_time, index="1"))
     except Exception as e:
         logging.error('execute script error: %s', e)
         
