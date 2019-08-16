@@ -43,7 +43,7 @@ class DevConfig(Config):
     ENV = 'dev'
     DEBUG = True
 
-    SQLALCHEMY_DATABASE_URI = 'mysql://root:1234@127.0.0.1:3306/tron?charset=utf8mb4'
+    SQLALCHEMY_DATABASE_URI = 'mysql://root:123qweasd@127.0.0.1:3306/tron?charset=utf8mb4'
 
     SENTRY_DSN = 'http://3b8fd86a45b7421885134adb473146d4:a32176ef5dec4b62aab891cf9b03ea20@192.168.2.16:9000/4'
 
