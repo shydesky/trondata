@@ -75,7 +75,6 @@ def fetch_block_for_trx(beginNumber, endNumber):
 #         @endNumber the end height of block
 @func_execute_time
 def fetch_block(beginNumber, endNumber):
-    t0 = time.time()
     with concurrent.futures.ThreadPoolExecutor(max_workers=20) as executor:
         step = 50
         to_do = []
@@ -89,15 +88,11 @@ def fetch_block(beginNumber, endNumber):
     for future in concurrent.futures.as_completed(to_do):
         res = future.result()
         results.extend(res)
-        logging.debug("block len: %d", len(results))
-    t1 = time.time()
-    logging.debug("fetch block use time: %d", t1 - t0)
 
     #results.sort(key=cmp_to_key(lambda a, b: a.number - b.number))
-    t2 = time.time()
-    operations.sync_block(blocks=results)
-    t3 = time.time()
-    logging.debug("insert db use time: %d", t3 - t2)
+    t0 = time.time()
+    operations.batch_sync_block(blocks=results)
+    logging.info("fetch block [%d - %d], total: %d.", beginNumber, endNumber, endNumber - beginNumber)
     return True
 
 @func_retry
@@ -133,7 +128,6 @@ if __name__ == "__main__":
                 pass
     except Exception as e:
         logging.error('execute script error: %s', e)
-
 
 
 

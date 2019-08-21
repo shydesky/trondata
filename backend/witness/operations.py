@@ -32,7 +32,8 @@ def _make_witness_schedule(utc_date_time, index=1):
     
     b_start = query_block_near_timestamp(timestamp=t_start, near_type="after")
     b_end = query_block_near_timestamp(timestamp=t_end, near_type="before")
-    
+
+    print(b_start, b_end)
     if not b_start and not b_end:
         raise LogicError("not near timestamp block", "")
     witness_list = calc_witness_list(t_start, b_start.number)
@@ -55,34 +56,37 @@ def make_witness_schedule(utc_date_time, index=None):
 
     logging.info('make witness schedule(%s) start.', utc_date_time.date())
 
-    if "1" in index:
-        wit_dict = make_witness_schedule1(utc_date_time)
-        WitnessSchedule.create_from_dict(wit_dict, need_to_commit=False)
-        logging.info(wit_dict)
+    try:
+        if "1" in index:
+            wit_dict = make_witness_schedule1(utc_date_time)
+            WitnessSchedule.create_from_dict(wit_dict, need_to_commit=False)
+            logging.info(wit_dict)
 
-    if "2" in index:
-        wit_dict = make_witness_schedule2(utc_date_time)
-        WitnessSchedule.create_from_dict(wit_dict, need_to_commit=False)
-        logging.info(wit_dict)
+        if "2" in index:
+            wit_dict = make_witness_schedule2(utc_date_time)
+            WitnessSchedule.create_from_dict(wit_dict, need_to_commit=False)
+            logging.info(wit_dict)
 
-    if "3" in index:
-        wit_dict = make_witness_schedule3(utc_date_time)
-        WitnessSchedule.create_from_dict(wit_dict, need_to_commit=False)
-        logging.info(wit_dict)
+        if "3" in index:
+            wit_dict = make_witness_schedule3(utc_date_time)
+            WitnessSchedule.create_from_dict(wit_dict, need_to_commit=False)
+            logging.info(wit_dict)
 
-    if "4" in index:
-        wit_dict = make_witness_schedule4(utc_date_time)
-        WitnessSchedule.create_from_dict(wit_dict, need_to_commit=False)
-        logging.info(wit_dict)
+        if "4" in index:
+            wit_dict = make_witness_schedule4(utc_date_time)
+            WitnessSchedule.create_from_dict(wit_dict, need_to_commit=False)
+            logging.info(wit_dict)
+        db.session.commit()
+        logging.info('make witness schedule(%s) success.', utc_date_time.date())
 
-    db.session.commit()
-    logging.info('make witness schedule(%s) success.', utc_date_time.date())
+    except Exception as e:
+        logging.error('make witness schedule(%s) failure.', utc_date_time.date())
 
 
 def calc_witness_list(t_start, number):
     witness_list = [None] * 27
     base_timestamp = t_start 
-    blocks = query_block_by_number(number, number + 81)
+    blocks = query_block_by_number(number, number + 500)
     if not blocks:
         logging.error('no blocks fetched after time %d, please fetch block at first.', base_timestamp)
         raise LogicError(base_timestamp, 'blocks size:{}'.format(len(blocks)))# to do
@@ -91,7 +95,9 @@ def calc_witness_list(t_start, number):
             index = int((block.timestamp - base_timestamp) / 3 % 27)
             witness_list[index] = block.witness_address
             if None not in witness_list:
-                return ",".join(witness_list)
+                sorted_witness = ",".join(witness_list)
+                logging.info(str(base_timestamp) + ":" + sorted_witness)
+                return sorted_witness
         logging.error('%s ~ %s do not contain 27 witnesses!', blocks[0].number, blocks[-1].number)
         raise LogicError('not contain 27 witnesses', 'knowned witness_list: {}'.format(",".join(witness_list)))
 

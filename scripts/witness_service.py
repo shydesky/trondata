@@ -8,9 +8,9 @@
 # params: the params needed by func.
 import sys
 import logging
-from datetime import datetime
+from datetime import datetime as dt
 from autoapp import app
-from backend.witness.operations import make_witness_schedule, witness_miss_block_by_day, witness_miss_block_by_period, make_witness_schedule_period
+from backend.witness.operations import make_witness_schedule, witness_miss_block_by_day, witness_miss_block_by_period
 
 # define the supported command
 const_func_available = {'make_witness_schedule', 'witness_miss_block_by_day', 'witness_miss_block_by_period', 'make_witness_schedule_period'}
@@ -31,7 +31,7 @@ def parse_args():
 if __name__ == '__main__':
     try:
         func, params = parse_args()
-        utc_date_time = datetime.utcfromtimestamp(int(params[0]))
+        utc_date_time = dt.utcfromtimestamp(int(params[0]))
     except Exception as e:
         logging.error('parse_args error: %s', e)
     try:
