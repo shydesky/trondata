@@ -28,7 +28,7 @@ def parse_args():
     logging.info("func: %s\nparmas: %s", func, list(map(lambda x: str(x), params)))
     return func, params
 
-def make_witness_schedule(func, utc_date_time):
+def witness_services(func, utc_date_time):
     with app.app_context():
         if func == 'make_witness_schedule':
             make_witness_schedule(utc_date_time, index=None)
@@ -47,7 +47,7 @@ if __name__ == '__main__':
     except Exception as e:
         logging.error('parse_args error: %s', e)
     try:
-        make_witness_schedule(func)
+        witness_services(func)
     except Exception as e:
         logging.error('execute script error: %s', e)
         
