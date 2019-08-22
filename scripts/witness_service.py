@@ -28,6 +28,18 @@ def parse_args():
     logging.info("func: %s\nparmas: %s", func, list(map(lambda x: str(x), params)))
     return func, params
 
+def make_witness_schedule(func, utc_date_time):
+    with app.app_context():
+        if func == 'make_witness_schedule':
+            make_witness_schedule(utc_date_time, index=None)
+        elif func == 'make_witness_schedule_period':
+            make_witness_schedule_period(utc_date_time, index="1")
+        elif func == 'witness_miss_block_by_day':
+            logging.info(witness_miss_block_by_day(utc_date_time, index=None))
+        elif func == 'witness_miss_block_by_period':
+            logging.info(witness_miss_block_by_day(utc_date_time, index="1"))
+
+
 if __name__ == '__main__':
     try:
         func, params = parse_args()
@@ -35,15 +47,7 @@ if __name__ == '__main__':
     except Exception as e:
         logging.error('parse_args error: %s', e)
     try:
-        with app.app_context():
-            if func == 'make_witness_schedule':
-                make_witness_schedule(utc_date_time, index=None)
-            elif func == 'make_witness_schedule_period':
-                make_witness_schedule_period(utc_date_time, index="1")
-            elif func == 'witness_miss_block_by_day':
-                logging.info(witness_miss_block_by_day(utc_date_time, index=None))
-            elif func == 'witness_miss_block_by_period':
-                logging.info(witness_miss_block_by_day(utc_date_time, index="1"))
+        make_witness_schedule(func)
     except Exception as e:
         logging.error('execute script error: %s', e)
         

@@ -89,9 +89,8 @@ class BlockMiss(object):
 
             self.miss_block_timestamp = list(sum(list(self.missblock_oneday.values()), []))
             self.missblock_timestamp_height = calc_missblock_timestamp_height(self.miss_block_timestamp)
-            logging.info(self.missblock_timestamp_height)
-            logging.info(self.missblock_timestamp_height.values())
-            logging.debug("total_miss: %d", self.total_miss)
+            return True
+        return False
         
     def _check(self):
         # check witness schedule available
@@ -116,7 +115,7 @@ if __name__ == '__main__':
     from autoapp import app
     with app.app_context():
         miss = BlockMiss(dt(2019, 8, 19, 0, 0, 9))
-        miss.calc()
-        miss.format()
+        if miss.calc():
+            miss.format()
 
 
