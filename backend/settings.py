@@ -32,7 +32,7 @@ class ProdConfig(Config):
 
     ENV = 'prod'
     DEBUG = False
-    SQLALCHEMY_DATABASE_URI = 'mysql://root:q1w2e3r4@crm-prod.cjfrqij7amkp.us-west-1.rds.amazonaws.com:3306/crm_prod?charset=utf8mb4'
+    SQLALCHEMY_DATABASE_URI = 'mysql://root:q1w2e3r4@127.0.0.1:3306/tron?charset=utf8mb4'
     DEBUG_TB_ENABLED = False  # Disable Debug toolbar
 
     DATABASE_SLOW_QUERY_ECHO = False

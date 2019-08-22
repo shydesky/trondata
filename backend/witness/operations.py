@@ -33,7 +33,6 @@ def _make_witness_schedule(utc_date_time, index=1):
     b_start = query_block_near_timestamp(timestamp=t_start, near_type="after")
     b_end = query_block_near_timestamp(timestamp=t_end, near_type="before")
 
-    print(b_start, b_end)
     if not b_start and not b_end:
         raise LogicError("not near timestamp block", "")
     witness_list = calc_witness_list(t_start, b_start.number)
@@ -101,6 +100,28 @@ def calc_witness_list(t_start, number):
         logging.error('%s ~ %s do not contain 27 witnesses!', blocks[0].number, blocks[-1].number)
         raise LogicError('not contain 27 witnesses', 'knowned witness_list: {}'.format(",".join(witness_list)))
 
+def four_period_one_day(utc_date_time):
+    res = []
+    year, month, day = utc_date_time.timetuple()[:3]
+
+    t_start = int(datetime(year, month, day, 0, 0, 12, tzinfo=timezone.utc).timestamp())
+    t_end = int(datetime(year, month, day, 6, 0, 9, tzinfo=timezone.utc).timestamp())
+    res.append((t_start, t_end))
+    
+    t_start = int(datetime(year, month, day, 6, 0, 12, tzinfo=timezone.utc).timestamp())
+    t_end = int(datetime(year, month, day, 12, 0, 9, tzinfo=timezone.utc).timestamp())
+    res.append((t_start, t_end))
+    
+    t_start = int(datetime(year, month, day, 12, 0, 12, tzinfo=timezone.utc).timestamp())
+    t_end = int(datetime(year, month, day, 18, 0, 9, tzinfo=timezone.utc).timestamp())
+    res.append((t_start, t_end))
+    
+    t_start = int(datetime(year, month, day, 18, 0, 12, tzinfo=timezone.utc).timestamp())
+    year, month, day = (utc_date_time + timedelta(days=1)).timetuple()[:3]
+    t_end = int(datetime(year, month, day, 0, 0, 9, tzinfo=timezone.utc).timestamp())
+    res.append((t_start, t_end))
+
+    return res
 
 #按天统计witness丢块情况
 def witness_miss_block_by_day(utc_date_time, index=None):
@@ -161,4 +182,18 @@ def witness_miss_block_by_period(t_start, t_end):
     ll.sort()
     logging.info('the timestamp of the missed blocks are %s, total number is %d', ','.join(map(lambda x: str(x),ll)), len(ll))
     return witness_miss_dict
+
+def witness_schedule_by_period(t_start, t_end):
+    schedule = WitnessSchedule.query.filter(WitnessSchedule.timestamp_start==t_start, WitnessSchedule.timestamp_end==t_end).first()
+    return schedule
+
+def query_witness(witness_address_list=None, res_key=None):
+    query = db.session.query(Witness)
+    if witness_address_list:
+        query.filter(Witness.address.in_(witness_address_list))
+    witnesses = query.all()
+    if res_key == 'address_b58c':
+        return {item.address_b58c: item for item in witnesses}
+    else:
+        return {item.address: item for item in witnesses}
 

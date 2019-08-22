@@ -51,8 +51,6 @@ def query_block_near_timestamp(timestamp, near_type=None):
     count = 0
     while count < 27:
         if near_type == 'after':
-            print(timestamp)
-            print(timestamp - count*3)
             block = Block.query.filter_by(timestamp=timestamp + count*3).first()
             if block:
                 break
