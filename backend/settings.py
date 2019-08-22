@@ -31,7 +31,7 @@ class ProdConfig(Config):
     """Production configuration."""
 
     ENV = 'prod'
-    DEBUG = False
+    DEBUG = True
     SQLALCHEMY_DATABASE_URI = 'mysql://root:q1w2e3r4@127.0.0.1:3306/tron?charset=utf8mb4'
     DEBUG_TB_ENABLED = False  # Disable Debug toolbar
 
