@@ -9,7 +9,7 @@ taskname = "witness schedule"
 if __name__ == "__main__":
 
     try:
-        current_time = datetime.datetime.now()
+        current_time = datetime.datetime.now() - datetime.timedelta(days=1)
         witness_service.make_witness_schedule("make_witness_schedule", current_time)
         logging.info('execute crontab [%s] success.', taskname)
     except Exception as e:
