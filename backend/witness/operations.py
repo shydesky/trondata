@@ -79,6 +79,7 @@ def make_witness_schedule(utc_date_time, index=None):
         logging.info('make witness schedule(%s) success.', utc_date_time.date())
 
     except Exception as e:
+        db.session.rollback()
         logging.error('make witness schedule(%s) failure.', utc_date_time.date())
 
 
