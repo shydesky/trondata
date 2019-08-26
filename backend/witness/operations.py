@@ -169,14 +169,21 @@ def witness_miss_block_by_period(t_start, t_end):
 
     logging.info("%s ~ %s produce %d block expected, but actually produce %d blocks, missed %d blocks", t_start, t_end, (t_end - t_start) /3 + 1, len(blocks), (t_end - t_start) /3 + 1 - len(blocks))
     index = 0
-    for time in range(int(t_start), int(t_end), 3):
-        block = blocks[index]
-        if time == block.timestamp:
-            index = index + 1
-            continue
-        else:
-            ss = int((time - t_start) / 3 % 27)
-            witness_miss_dict[witness_list[ss]].append(time)
+
+    excepted_timestamp_set = set()
+    actual_timestamp_set = set()
+
+    for block in blocks:
+        actual_timestamp_set.add(block.timestamp)
+    for time in range(int(t_start), int(t_end)+1, 3):
+        excepted_timestamp_set.add(time)
+
+    missed_timestamp_set = excepted_timestamp_set - actual_timestamp_set
+
+    for missed in missed_time_stamp:
+        index = int((miss - t_start) / 3 % 27)
+        witness_miss_dict[witness_list[index]].append(time)
+
     ll = []
     for key, value in witness_miss_dict.items():
         ll.extend(value)
