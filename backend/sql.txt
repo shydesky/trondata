@@ -1,0 +1,2 @@
+# 查询每个周期生产的区块数量 (每个周期理论应该生产的区块数目为 7200 - 2 = 7198 个)
+select LEFT(from_unixtime(timestamp_start),10), block_number_end - block_number_start + 1 from witness_schedule where  LEFT(from_unixtime(timestamp_start),10)="2019-08-25";
