@@ -173,7 +173,7 @@ def witness_miss_block_by_period(t_start, t_end):
     excepted_timestamp_set = set()
     actual_timestamp_set = set()
 
-    for lblock in blocks:
+    for block in blocks:
         actual_timestamp_set.add(block.timestamp)
     for time in range(int(t_start), int(t_end)+1, 3):
         excepted_timestamp_set.add(time)
