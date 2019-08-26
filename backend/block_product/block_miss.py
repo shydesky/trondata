@@ -31,7 +31,7 @@ def calc_maintaince_slot_timestamp(utc_date_time):
         maintaince_slot_timestamp.add(item[1] - 3)
         maintaince_slot_timestamp.add(item[1] - 6)
 
-    logging.debug(maintaince_slot_timestamp)
+    logging.debug("maintaince slot_timestamps are %s", ",".join(map(lambda x: str(x), maintaince_slot_timestamp)))
     return maintaince_slot_timestamp
 
 def calc_missblock_timestamp_height(timestamp_list=None):
