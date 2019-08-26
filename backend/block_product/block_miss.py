@@ -113,11 +113,4 @@ class BlockMiss(object):
         output = "Date: %s UTC+0:00 \nTotal Miss Block: %d \nDetails:\n%s" % (str(self.utc_date_time.date()), self.total_miss, details)
         print(output)
 
-if __name__ == '__main__':
-    from autoapp import app
-    with app.app_context():
-        miss = BlockMiss(dt(2019, 8, 19, 0, 0, 9))
-        if miss.calc():
-            miss.format()
-
 
