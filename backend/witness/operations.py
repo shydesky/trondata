@@ -180,7 +180,7 @@ def witness_miss_block_by_period(t_start, t_end):
 
     missed_timestamp_set = excepted_timestamp_set - actual_timestamp_set
 
-    for missed in missed_time_stamp:
+    for missed in missed_timestamp_set:
         index = int((missed - t_start) / 3 % 27)
         witness_miss_dict[witness_list[index]].append(time)
 
