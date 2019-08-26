@@ -4,8 +4,6 @@ import datetime
 from backend.block import operations
 from scripts import witness_service
 
-from autoapp import app
-
 taskname = "witness schedule"
 if __name__ == "__main__":
 
