@@ -1,6 +1,7 @@
 language: python
+
 python:
-  - "3.6"
+  - '3.6'
 
 install:
   - pip install -r requirements/prod.txt
@@ -14,8 +15,6 @@ script:
 
 notifications:
   slack:
-    rooms:
-      - bittorrent:MdyP8yXF71mssMhW57NRDNrK#architectures
-    if: branch = master
-    on_success: always
+    secure: iHmxZ4X2w8ZkuMQtoSqYKaKt2FO0k1riWqvDIQsqJhOrsUmRO3z7nVGfOxIHNp+kpObwmVofLTrpz3byRX7KXnorNHeCkwFSXCPhPbyUre5UoLNQTZm/QHhsSmQW9VIy3b5tCuQJxorxKRl0TgLO4sfJFnscKr2mPyxIbg1eANUWqay8ZGyR6c32JNLQydr/UREc8CCT3fCfykdxZ2TMKXSgFdHzite+eV0t+GG22QrRLNg7rucFWwvC4+rT9EGEEMP3QrCIbTyOOVLra/CcgZQSA300dvJShjXVLhqgoxqKN66I1tlW6eCK0W3WajOyocxObccg+OOZ3eeWn9xfdxg1wDLVxe2sihgmcyPxf40RbVY2wIIxv302fz6uZG+SUWqAiDBucuLk6wQvb6Qj+oplp6ii4K0UooociRU7tGJPXJSYdxEqcWiqRA1APIkLx1mB+Qw18TJQk4poSlPsOhAUefzixFG9kXBGZXynfdcweM10j+TTnbzjZKGIVj++xYMwAStvsz7Xg8JWuJxlSJDHT5wXgEdg8ldgVRU3s8vQNkKvCehS0/H1cLSc9FXtG0+Q0ccxENNzsL6XprboBqJwYtd54GqTVBXF+U9FvHLhOFZ4t9m27nGJRe8QBv2vx+BkuXgSxgL7uCg3NTp9DmegD+2/f+vcOLIb4q4T6As=
+  if: branch = master
 
