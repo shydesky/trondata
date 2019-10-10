@@ -11,3 +11,7 @@ branchs:
 
 script:
   - pytest
+
+notifications:
+  email:
+    on_success: always
