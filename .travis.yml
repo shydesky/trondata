@@ -9,5 +9,5 @@ branchs:
   only:
     - master
 
-scripts:
+script:
   - pytest
