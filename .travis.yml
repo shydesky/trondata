@@ -10,4 +10,4 @@ branchs:
     - master
 
 scripts:
-  ls -l
+  pytest
