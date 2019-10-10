@@ -1,0 +1,8 @@
+language: java
+
+branchs:
+  only:
+    - master
+
+scripts:
+  ls -l
