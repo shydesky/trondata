@@ -1,5 +1,9 @@
-language: java
-jdk: openjdk8
+language: python
+python:
+  - "3.6"
+
+install:
+  - pip install -r requirements.txt
 
 branchs:
   only:
