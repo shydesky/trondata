@@ -13,8 +13,7 @@ script:
   - pytest
 
 notifications:
-  email:
+  slack: bittorrent:MdyP8yXF71mssMhW57NRDNrK
     if: branch = master
     on_success: always
-    recipients:
-      - shydesky@gmail.com
+
