@@ -14,6 +14,7 @@ script:
 
 notifications:
   email:
+    if: branch = master
     on_success: always
     recipients:
       - shydesky@gmail.com
