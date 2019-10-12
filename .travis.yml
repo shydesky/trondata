@@ -1,14 +1,18 @@
 language: python
 python:
-- '3.6'
-install:
-- pip install -r requirements/prod.txt
+  - '3.6'
+
 branchs:
   only:
-  - master
+    - master
+
+install:
+  - pip install -r requirements/prod.txt
+
 script:
-- pytest
+  - pytest
+
 notifications:
   slack:
-    secure: eipK2VsJmS0CJfgO1C5mfi48grZKA0+g7i86g0Z0cCYAIPifPnmSo5b2oyRrZTJhqZ/0dq9HmSUVxrN8MdfADhEgDvmuiW4bWmXbqQO9bBgQKFC7H0VxgzX/z0Zxv2om8kEnZN0om0acbC4QoPFpH02Ewn0vGu6mmR3FhZR5yTW8WPa5nTp8cbSjuQZYgB/wDrf+RS1C197ObZFVI3l56TGFcgKYs09f7iyxtDIRKdSj05Vicl15j9cr9nzYEUJiBMKYm/aeB3t5M3rKXN3gnF9t+UxMWYQG38m3CI9sJOKi/xHwwne9aG8U3UHfUNkESgAjAv/CN6qw9GAErJo8qg08Ts8kTgAkqmxUILNhwYa3/tQaVUpVHN01f3pNVRTJfauicN9xL4zZNzkqB/BwqTNxNkQjYstwo5KNclDM+yk1lCm+iYgcSkcS433Dfa430ppt4oi1kFHUT0+7Cbe93CrYcMaBFekHvyXaOR8nB8BAd2WNLU2nUQpFlJcDTjE0AvFgljIK8ESUkeS5GvESVfdfSmH4g3AIn7xShekNFhdzT5qOLyzVnJ5L54VrzBbXDOxKgCBcfwFyhmTq9moyqAH7RnMlffyI6WddMSk1ufN0giaZmu11V3wl6FmsoGnB6pXY1FjcvKtaknHw0ZTdHiHo4OP5VclEdlkFr3JG7BY=
+    secure: JIprskVcdmB2LSwsJgCakXhNcT/t5JNPrdxZRS058O5U8ZJyqX410zO8gH1SfTBNBWrX/9x3j+FyvAdLJ26R9ZuXvklr8N7MDAWrJMTrLg/f+RWAnjwJedk0RQznNvnKSbrng3/UMcXr8J5SsInG8h+TSxg8IJS6pX8jP6Dahel+DbtA+qXsPnPuoFYNrqCh4ahq+KyiwUNGvlQNvrKyZ0rEbwILbBQCr3ySr9YPl/IO3GX6aae2xgtDZDohqueyIiK4YSXj+G0nQsHOuDsV45/BuIXf/fn0TPQJtc+kZE2kqkGUcVBZzmRqUCNU5ZAzE3o4Xk/5mXbX1Sri7YVmqp8hKnFhGfeLdp17G3MlpxM9iK229O8fW341aQ/xO4Rqi96c3JtpIh++PKgweYGdTzA7O5k+suCPQncA8QPuARHBFDPDPRg5g2nVhksvTnkwP39qAInXw+HYbN10mjjiy51oLmQ8xaFpWVZ+yFli6OEWUKWjTLxuBwc/4/C8PnAwIBrk4Lx+ARM9MbKaDfTv5xXE0M8/QfVst2PlNQNK6WuYDdWD10Oauh7WvNA8En5v4tehEd9tDACXEW4LbAvg6bNijpR7nSWm5aWIvnRr4MYFw1hpUAhlC41wX4aT05+5CEOuFjrsbPDm8/m9BkFte/3+YpCGlkWi5XcRQGWVA9s=
   if: branch = master
